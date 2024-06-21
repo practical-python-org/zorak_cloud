@@ -1,14 +1,14 @@
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
 
 resource "aws_security_group" "allow_ssh" {
-  name        = local.security_group_name
-  description = local.security_group_description
+  name        = local.Zorak.security_group_name
+  description = local.Zorak.security_group_description
 
   ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = local.ssh_ingress_cidr
+    cidr_blocks = local.Zorak.ssh_ingress_cidr
   }
 
   egress {
@@ -18,5 +18,5 @@ resource "aws_security_group" "allow_ssh" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = local.tags
+  tags = local.Zorak.tags
 }
