@@ -2,8 +2,7 @@ locals {
   Zorak = {
     region                     = "eu-central-1"
     instance_type              = "t2.micro"
-    key_name                   = "id_rsa"
-    public_key_path            = "~/.ssh/id_rsa.pub"
+    key_name                   = "zorak_ssh"
     ami_id                     = "ami-0d527b8c289b4af7f" # Ubuntu 20.04 LTS AMI for Frankfurt
     security_group_name        = "allow_ssh"
     security_group_description = "Allow SSH inbound traffic"

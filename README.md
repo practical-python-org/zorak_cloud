@@ -97,46 +97,43 @@ jobs:
 **Example Content**:
 ```bash
 #!/bin/bash
-# Update and upgrade the system
-apt-get update -y
-apt-get upgrade -y
+TOKEN="Some_discrod_token"
 
-# Install Docker
-apt-get install -y docker.io
-systemctl start docker
-systemctl enable docker
+# Docker and Docker-Compose
+sudo apt-get update -y
+sudo apt-get install ca-certificates curl -y
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update -y
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
+sudo systemctl start docker && sudo systemctl enable docker
 
-# Install Git
-apt-get install -y git
+# Message of the day -> Neofetch
+sudo apt install -y git neofetch
+sudo rm -r /etc/update-motd.d/*
+sudo mkdir /etc/update-motd.d
+sudo bash -c 'cat <<EOF > /etc/update-motd.d/00-neofetch
+#!/bin/bash
+/usr/bin/neofetch
+EOF'
+sudo chmod +x /etc/update-motd.d/00-neofetch
+sudo run-parts /etc/update-motd.d/
 
-# Install Neofetch
-apt-get install -y neofetch
+# Zorak
+git clone https://github.com/practical-python-org/ZorakBot.git
+cd ZorakBot && cp .env.example .env
+sed -i "s/^DISCORD_TOKEN=.*/DISCORD_TOKEN=${TOKEN}/" ".env"
 
-# Create a new user for GitHub Actions
-USERNAME="github_actions"
-USER_HOME="/home/${USERNAME}"
-USER_SSH_DIR="${USER_HOME}/.ssh"
+docker compose up -d
 
-# Create user and home directory
-useradd -m -s /bin/bash ${USERNAME}
-
-# Add user to the docker group
-usermod -aG docker ${USERNAME}
-
-# Set up SSH for the new user
-mkdir -p ${USER_SSH_DIR}
-chmod 700 ${USER_SSH_DIR}
-touch ${USER_SSH_DIR}/authorized_keys
-chmod 600 ${USER_SSH_DIR}/authorized_keys
-
-# Copy the public key to the authorized_keys file
-echo "YOUR_GITHUB_ACTIONS_PUBLIC_KEY_HERE" > ${USER_SSH_DIR}/authorized_keys
-
-# Set ownership of the SSH directory and files
-chown -R ${USERNAME}:${USERNAME} ${USER_SSH_DIR}
-
-# Output message
-echo "Basic setup is complete. Docker, Git, and Neofetch are installed. User ${USERNAME} is created for SSH access."
 ```
 
 ### Summary

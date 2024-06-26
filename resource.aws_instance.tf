@@ -7,8 +7,6 @@ resource "aws_instance" "zorak" {
 
   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
 
-  user_data = file("setup.sh")
-
   tags = local.Zorak.tags
 }
 
