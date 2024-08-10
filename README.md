@@ -1,30 +1,4 @@
-Zorak Cloud Infra
-
-### Step-by-Step Guide
-
-#### 1. Create `locals.defaults.tf`
-This file will contain the local variables for your Terraform configuration. By adding it to `.gitignore`, you can ensure that sensitive or environment-specific information is not committed to your repository.
-
-```sh
-# Create locals.defaults.tf
-touch locals.defaults.tf
-```
-
-#### 2. Create `deploy.yaml`
-This file will define the GitHub Actions workflow for deploying your application. By including it in `.gitignore`, you can manage deployment secrets and configurations locally without exposing them in your repository.
-
-```sh
-# Create deploy.yaml
-touch deploy.yaml
-```
-
-#### 3. Create `setup.sh`
-This script will be used to set up the necessary environment on your EC2 instance, such as installing required software and configuring user access. By ignoring this file, you can keep setup specifics private and customizable.
-
-```sh
-# Create setup.sh
-touch setup.sh
-```
+# Zorak Cloud Infra
 
 ### Documentation
 
